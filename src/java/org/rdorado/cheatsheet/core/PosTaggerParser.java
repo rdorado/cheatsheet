@@ -24,6 +24,10 @@ public class PosTaggerParser extends DefaultHandler{
 	public PosTaggerParser(String outfilename, POSTagger posTagger, POSTaggerOutputType outputType) throws Exception {
 		this.tagger = posTagger;
 		this.outputType = outputType;
+		if (outputType.equals(POSTaggerOutputType.Text)) {
+			outfilename = outfilename.replaceAll(".xml", ".txt");
+		}
+		
 		out = new BufferedWriter(new OutputStreamWriter(new FileOutputStream(outfilename), "UTF8")); 
 	}
 
