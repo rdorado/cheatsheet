@@ -8,7 +8,11 @@ import org.rdorado.cheatsheet.core.POSTagger;
 import org.rdorado.cheatsheet.core.SenteceSegmenter;
 import org.rdorado.cheatsheet.core.TaggedSentence;
 
+import edu.stanford.nlp.ling.CoreAnnotations.PartOfSpeechAnnotation;
 import edu.stanford.nlp.ling.CoreAnnotations.SentencesAnnotation;
+import edu.stanford.nlp.ling.CoreAnnotations.TextAnnotation;
+import edu.stanford.nlp.ling.CoreAnnotations.TokensAnnotation;
+import edu.stanford.nlp.ling.CoreLabel;
 import edu.stanford.nlp.pipeline.Annotation;
 import edu.stanford.nlp.pipeline.StanfordCoreNLP;
 import edu.stanford.nlp.tagger.maxent.MaxentTagger;
@@ -43,15 +47,27 @@ public class StanfordCoreNLPWrapper implements SenteceSegmenter, POSTagger{
 
 	@Override
 	public TaggedSentence tag(String sentence) {
-		MaxentTagger maxentTagger = new MaxentTagger("edu/stanford/nlp/models/pos-tagger/english-left3words/english-left3words-distsim.tagger");
+		TaggedSentence result = new TaggedSentence(); 
+		Annotation document = new Annotation(sentence);
+		pipeline.annotate(document);
+		
+		List<CoreMap> sentences = document.get(SentencesAnnotation.class);
+		for(CoreMap taggedsentence: sentences) {
+			for (CoreLabel token: taggedsentence.get(TokensAnnotation.class)) {
+				String word = token.get(TextAnnotation.class);
+			    String pos = token.get(PartOfSpeechAnnotation.class);
+			    result.addTaggedToken(word, pos);
+			}
+		}
+		/*MaxentTagger maxentTagger = new MaxentTagger("edu/stanford/nlp/models/pos-tagger/english-left3words/english-left3words-distsim.tagger");
 
 	    String tag = maxentTagger.tagString("He half closed his eyes and searched the horizon.");
 	    String[] eachTag = tag.split("\\s+");
 
 	    for(int i = 0; i< eachTag.length; i++) {
 	      System.out.print(eachTag[i].split("_")[0] +"_"+ eachTag[i].split("_")[1]+" ");
-	    }
-		return null;
+	    }*/
+		return result;
 	}
 	
 	public static void main(String[] args){
@@ -66,7 +82,8 @@ public class StanfordCoreNLPWrapper implements SenteceSegmenter, POSTagger{
     }*/
 		
 		StanfordCoreNLPWrapper coreNLPWrapper = new StanfordCoreNLPWrapper();
-		coreNLPWrapper.tag("The dog ate chocolate.");
+		//coreNLPWrapper.tag("The dog ate chocolate.");
+		coreNLPWrapper.tag("He half closed his eyes and searched the horizon.");
 	}
 
 

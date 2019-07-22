@@ -2,6 +2,7 @@ package org.rdorado.cheatsheet.gutemberg;
 
 import org.rdorado.cheatsheet.core.SenteceSegmenter;
 import org.rdorado.cheatsheet.core.SentenceFileParser;
+import org.rdorado.cheatsheet.core.PosTaggerParser.POSTaggerOutputType;
 import org.rdorado.cheatsheet.core.wrapers.OpenNLPWrapper;
 import org.rdorado.cheatsheet.core.wrapers.StanfordCoreNLPWrapper;
 import org.rdorado.cheatsheet.utils.Utils;
@@ -25,6 +26,7 @@ import java.util.ArrayList;
 import javax.xml.parsers.SAXParser;
 import javax.xml.parsers.SAXParserFactory;
 
+import org.rdorado.cheatsheet.core.POSTagger;
 import org.rdorado.cheatsheet.core.Processor;
 
 
@@ -43,6 +45,8 @@ public class GutembergPreprocessor {
 		File[] listOfFiles = infolder.listFiles();
 
 		File outdirfolder = new File(outdir);	
+		if(!outdirfolder.exists()) outdirfolder.mkdirs();
+		
 		if(!outdirfolder.exists() && !outdirfolder.isDirectory()) {
 			System.out.println("Output folder does not exist");
 			return;
@@ -65,15 +69,15 @@ public class GutembergPreprocessor {
 					
 					if (startReached && !endReached) {
 						
-						if (line.strip().equals("")) {
-							if (!currentParagraph.strip().equals("")) {
+						if (line.trim().equals("")) { //strip
+							if (!currentParagraph.trim().equals("")) {
 								outputbw.append(" <paragraph start='"+iline+"' end='"+(nline-1)+"'>"+Utils.xmlEscapeText(currentParagraph.substring(1))+"</paragraph>\n");
 								currentParagraph = "";
 								iline = -1;
 							}
 						}
 						else {
-							currentParagraph=currentParagraph+" "+line.strip();
+							currentParagraph=currentParagraph+" "+line.trim();
 							if (iline == -1) iline = nline;
 						}
 					}
@@ -99,23 +103,32 @@ public class GutembergPreprocessor {
 
 	}
 	
-	private static void transformPragraphXMLtoSentenceXML(String srcFolder, String destFolder, SenteceSegmenter openNLPWrapper) {
-		Processor.paragraphToSentences(srcFolder, destFolder, openNLPWrapper);
+	private static void transformPragraphXMLtoSentenceXML(String srcFolder, String destFolder, SenteceSegmenter senteceSegmenter) {
+		Processor.paragraphToSentences(srcFolder, destFolder, senteceSegmenter);
+	}
+	
+	private static void tagSentences(String srcFolder, String destFolder, POSTagger posTagger, POSTaggerOutputType outputType) {
+		Processor.tagSentences(srcFolder, destFolder, posTagger, outputType);
 	}
 	
 	private static void filterSentences(String rootDir, String outputDir, String[] sentencesDirs) {
 		Processor.filterSentences(rootDir, outputDir, sentencesDirs);
 	}
 	
+
+	
 	public static void main(String[] args) {
 		
 		//transformTextToPragraphXML("data/gutenberg","output/gutenberg/paragraphs");
 		//transformPragraphXMLtoSentenceXML("output/gutenberg/paragraphs","output/gutenberg/sentences/opennlp", new OpenNLPWrapper());
 		//transformPragraphXMLtoSentenceXML("output/gutenberg/paragraphs","output/gutenberg/sentences/corenlp", new StanfordCoreNLPWrapper());
-		filterSentences("output/gutenberg/sentences", "output/gutenberg/sentences/filtered", new String[]{"corenlp", "nltk", "opennlp", "xx"});
-		
+		//filterSentences("output/gutenberg/sentences", "output/gutenberg/sentences/filtered", new String[]{"corenlp", "nltk", "opennlp", "xx"});
+		//tagSentences("output/gutenberg/sentences/filtered", "output/gutenberg/postagged/opennlp", new OpenNLPWrapper(), POSTaggerOutputType.Text);
+		tagSentences("output/gutenberg/sentences/filtered", "output/gutenberg/postagged/corenlp", new StanfordCoreNLPWrapper(), POSTaggerOutputType.Text);
+
 	}
-	
+
+
 
 
 

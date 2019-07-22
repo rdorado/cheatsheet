@@ -16,6 +16,7 @@ import javax.xml.transform.TransformerFactory;
 import javax.xml.transform.dom.DOMSource;
 import javax.xml.transform.stream.StreamResult;
 
+import org.rdorado.cheatsheet.core.PosTaggerParser.POSTaggerOutputType;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 import org.xml.sax.helpers.DefaultHandler;
@@ -34,8 +35,31 @@ public class Processor {
 		}
 		return infolder.listFiles();
 	}
+	
+	public static void tagSentences(String dirpath, String outdir, POSTagger posTagger, POSTaggerOutputType outputType) {
+		File outdirfolder  = new File(outdir);
+		if(!outdirfolder.exists()) outdirfolder.mkdirs();
+		
+		try {
+
+			SAXParserFactory factory = SAXParserFactory.newInstance();
+			SAXParser saxParser = factory.newSAXParser();
+
+			File[] listOfFiles = getFiles(dirpath);
+			for (File file : listOfFiles) {
+				DefaultHandler handler = new PosTaggerParser(outdir+"/"+file.getName(), posTagger, outputType);
+				saxParser.parse(file, handler);
+			}
+
+		} catch (Exception e) {			
+			e.printStackTrace();
+		}		
+	}
 
 	public static void paragraphToSentences(String dirpath, String outdir, SenteceSegmenter senteceSegmenter) {
+		File outdirfolder  = new File(outdir);
+		if(!outdirfolder.exists()) outdirfolder.mkdirs();
+		
 		try {
 
 			SAXParserFactory factory = SAXParserFactory.newInstance();
@@ -82,6 +106,9 @@ public class Processor {
 			System.out.println("Root folder does not exist");
 			return;
 		}
+		
+		File outdirfolder  = new File(outputDir);
+		if(!outdirfolder.exists()) outdirfolder.mkdirs();
 		
 		File fileOutputDir = new File(outputDir);		
 		if(!fileOutputDir.exists() || !fileOutputDir.isDirectory()) {
@@ -148,6 +175,8 @@ public class Processor {
 		
 		
 	}
+
+
 
 }
 
