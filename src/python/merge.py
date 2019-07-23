@@ -55,7 +55,7 @@ def mergeFiles(sourceFiles, destFile, weights=None, threshold=None):
 	
 		
 
-def merge(sourceFolders, destFolder):
+def merge(sourceFolders, destFolder, allFilename=None):
 	validFolders = getValidFolders(sourceFolders)
 	if len(validFolders) < 2:
 		print("Not enough valid directories to merge.")
@@ -63,6 +63,12 @@ def merge(sourceFolders, destFolder):
 	
 	if not os.path.exists(destFolder):
 		os.makedirs(destFolder)		
+	
+	if allFilename != None:		
+		if not os.path.exists(os.path.dirname(allFilename)):
+			os.makedirs(os.path.dirname(allFilename))	
+		open(allFilename,"w").close()
+	
 	
 	filetargets = os.listdir(validFolders[0])
 	for filename in filetargets:
@@ -74,10 +80,14 @@ def merge(sourceFolders, destFolder):
 				isValidFile = False
 				break
 			filesToMerge.append(tmpFile)
+			
 		if isValidFile:
-			outFile = os.path.join(destFolder, filename)
-			mergeFiles(filesToMerge, outFile)
-	
+			outFilename = os.path.join(destFolder, filename)
+			mergeFiles(filesToMerge, outFilename)
+			if allFilename != None:
+				with open(allFilename, "a") as allFile, open(outFilename, "r") as outFile:
+					for line in outFile.readlines():
+						allFile.write(line)
 
 		
-merge(["output/treebank/tagged/corenlp/","output/treebank/tagged/opennlp/"],"output/treebank/tagged/compiled/")
+merge(["output/gutenberg/tagged/corenlp/","output/gutenberg/tagged/opennlp/"],"output/gutenberg/tagged/compiled/", "output/gutenberg/tagged/compiled/all.train")

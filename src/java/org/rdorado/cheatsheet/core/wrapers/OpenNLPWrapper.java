@@ -30,7 +30,8 @@ public class OpenNLPWrapper implements SenteceSegmenter, POSTagger{
 			InputStream inputStream = new FileInputStream("models/opennlp/en-sent.bin");
 			detector = new SentenceDetectorME(new SentenceModel(inputStream));
 			
-			inputStream = new FileInputStream("models/opennlp/en-pos-maxent.bin");
+			//inputStream = new FileInputStream("models/opennlp/en-pos-maxent.bin");
+			inputStream = new FileInputStream("models/opennlp/en-pos-maxent-gutenberg.model");
 			tagger = new POSTaggerME(new POSModel(inputStream));
 			
 			inputStream = new FileInputStream("models/opennlp/en-token.bin");

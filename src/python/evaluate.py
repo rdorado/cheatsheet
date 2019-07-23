@@ -46,7 +46,7 @@ def evaluate(goldfolder, evalfolder):
 	else:
 		print("No files to compare where found in the folder")
 		
-evaluate("data/treebank/tagged/", "output/treebank/tagged/corenlp/")
-evaluate("data/treebank/tagged/", "output/treebank/tagged/opennlp/")
-
+#evaluate("data/treebank/tagged/", "output/treebank/tagged/corenlp/")
+#evaluate("data/treebank/tagged/", "output/treebank/tagged/opennlp/")
+evaluate("data/treebank/tagged/", "output/treebank/tagged/opennlp2/")
 

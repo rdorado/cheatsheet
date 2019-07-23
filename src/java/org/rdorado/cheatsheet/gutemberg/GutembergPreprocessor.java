@@ -123,12 +123,15 @@ public class GutembergPreprocessor {
 		//transformPragraphXMLtoSentenceXML("output/gutenberg/paragraphs","output/gutenberg/sentences/opennlp", new OpenNLPWrapper());
 		//transformPragraphXMLtoSentenceXML("output/gutenberg/paragraphs","output/gutenberg/sentences/corenlp", new StanfordCoreNLPWrapper());
 		//filterSentences("output/gutenberg/sentences", "output/gutenberg/sentences/filtered", new String[]{"corenlp", "nltk", "opennlp", "xx"});
-		tagSentences("output/gutenberg/sentences/filtered", "output/gutenberg/tagged/opennlp", new OpenNLPWrapper(), POSTaggerOutputType.Text);
-		tagSentences("output/gutenberg/sentences/filtered", "output/gutenberg/tagged/corenlp", new StanfordCoreNLPWrapper(), POSTaggerOutputType.Text);
+		
+		//tagSentences("output/gutenberg/sentences/filtered", "output/gutenberg/tagged/opennlp", new OpenNLPWrapper(), POSTaggerOutputType.Text);
+		//tagSentences("output/gutenberg/sentences/filtered", "output/gutenberg/tagged/corenlp", new StanfordCoreNLPWrapper(), POSTaggerOutputType.Text);
 		
 		//tagSentences("data/treebank/sentences", "output/treebank/tagged/corenlp", new StanfordCoreNLPWrapper(), POSTaggerOutputType.Text);
-		//tagSentences("data/treebank/sentences", "output/treebank/tagged/opennlp", new OpenNLPWrapper(), POSTaggerOutputType.Text);
+		tagSentences("data/treebank/sentences", "output/treebank/tagged/opennlp2", new OpenNLPWrapper(), POSTaggerOutputType.Text);
+		
 
+		
 	}
 
 
