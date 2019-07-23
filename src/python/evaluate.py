@@ -48,3 +48,5 @@ def evaluate(goldfolder, evalfolder):
 		
 evaluate("data/treebank/tagged/", "output/treebank/tagged/corenlp/")
 evaluate("data/treebank/tagged/", "output/treebank/tagged/opennlp/")
+
+
