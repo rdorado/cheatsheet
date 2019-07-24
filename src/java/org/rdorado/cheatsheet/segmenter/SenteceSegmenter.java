@@ -1,4 +1,4 @@
-package org.rdorado.cheatsheet.core;
+package org.rdorado.cheatsheet.segmenter;
 
 public interface SenteceSegmenter {
 

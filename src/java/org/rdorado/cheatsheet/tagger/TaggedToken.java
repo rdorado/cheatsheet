@@ -1,4 +1,4 @@
-package org.rdorado.cheatsheet.core;
+package org.rdorado.cheatsheet.tagger;
 
 public class TaggedToken {
 	String text;

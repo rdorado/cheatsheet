@@ -1,6 +1,4 @@
-package org.rdorado.cheatsheet.core;
-
-import java.util.ArrayList;
+package org.rdorado.cheatsheet.tagger;
 
 public interface POSTagger {
 

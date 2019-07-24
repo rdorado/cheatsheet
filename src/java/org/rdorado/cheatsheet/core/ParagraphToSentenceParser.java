@@ -5,6 +5,7 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.OutputStreamWriter;
 
+import org.rdorado.cheatsheet.segmenter.SenteceSegmenter;
 import org.rdorado.cheatsheet.utils.Utils;
 import org.xml.sax.Attributes;
 import org.xml.sax.SAXException;

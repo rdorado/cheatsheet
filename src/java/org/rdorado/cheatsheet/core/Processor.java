@@ -16,7 +16,14 @@ import javax.xml.transform.TransformerFactory;
 import javax.xml.transform.dom.DOMSource;
 import javax.xml.transform.stream.StreamResult;
 
-import org.rdorado.cheatsheet.core.PosTaggerParser.POSTaggerOutputType;
+import org.rdorado.cheatsheet.parser.ConstParserParser;
+import org.rdorado.cheatsheet.parser.ConstParserParser.ParserOutputType;
+import org.rdorado.cheatsheet.parser.Parser;
+import org.rdorado.cheatsheet.segmenter.SenteceSegmenter;
+import org.rdorado.cheatsheet.tagger.POSTagger;
+import org.rdorado.cheatsheet.tagger.POSTaggerParser;
+import org.rdorado.cheatsheet.tagger.POSTaggerParser.POSTaggerOutputType;
+import org.rdorado.cheatsheet.tokenizer.Tokenizer;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 import org.xml.sax.helpers.DefaultHandler;
@@ -27,13 +34,30 @@ import org.xml.sax.helpers.DefaultHandler;
  */
 public class Processor {
 
-
 	public static File[] getFiles(String dirpath) throws Exception{
 		File infolder = new File(dirpath);		
 		if(!infolder.exists() && !infolder.isDirectory()) {
 			throw new Exception("Input folder does not exist");
 		}
 		return infolder.listFiles();
+	}
+	
+	public static void parseSentences(String dirpath, String outdir, Parser parser, ParserOutputType outputType) {
+		File outdirfolder  = new File(outdir);
+		if(!outdirfolder.exists()) outdirfolder.mkdirs();
+		
+		try {
+			SAXParserFactory factory = SAXParserFactory.newInstance();
+			SAXParser saxParser = factory.newSAXParser();		
+			
+			File[] listOfFiles = getFiles(dirpath);
+			for (File file : listOfFiles) {
+				DefaultHandler handler = new ConstParserParser(outdir+"/"+file.getName(), parser, outputType);
+				saxParser.parse(file, handler);
+			}
+		} catch (Exception e) {			
+			e.printStackTrace();
+		}			
 	}
 	
 	public static void tagSentences(String dirpath, String outdir, POSTagger posTagger, POSTaggerOutputType outputType) {
@@ -47,7 +71,7 @@ public class Processor {
 
 			File[] listOfFiles = getFiles(dirpath);
 			for (File file : listOfFiles) {
-				DefaultHandler handler = new PosTaggerParser(outdir+"/"+file.getName(), posTagger, outputType);
+				DefaultHandler handler = new POSTaggerParser(outdir+"/"+file.getName(), posTagger, outputType);
 				saxParser.parse(file, handler);
 			}
 
@@ -156,27 +180,7 @@ public class Processor {
 		catch (Exception e) {
 			e.printStackTrace();
 		}
-		
-		
-		
-		/*Path path = Paths.get(rootDir, sentencesDirs[0]);
-		
-		
-		for (String sentencesDir : sentenceDirs) {
-			
-			Path path = Paths.get(rootDir, sentencesDir);			
-			File fileSentencesDir = path.toFile();		
-			if(!fileSentencesDir.exists() && !fileSentencesDir.isDirectory()) {
-				System.out.println("Folder '"+fileSentencesDir.toString()+"' does not exist, skipping it.");
-				continue;
-			}
-			File[] listOfFiles = fileSentencesDir.listFiles();
-		}*/
-		
-		
 	}
-
-
 
 }
 
@@ -330,13 +334,16 @@ class Paragraph {
 class Sentence {
 	String text;
 	int count;
+	
 	public Sentence(String text) {
 		this.text=text;
 		this.count=1;
 	}
+	
 	public void increment() {
 		this.count+=1;		
 	}
+	
 	@Override
 	public boolean equals(Object obj) {
 		if(obj instanceof Sentence) {

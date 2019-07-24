@@ -1,4 +1,4 @@
-package org.rdorado.cheatsheet.core;
+package org.rdorado.cheatsheet.tagger;
 
 import java.io.BufferedWriter;
 import java.io.FileOutputStream;
@@ -6,12 +6,11 @@ import java.io.IOException;
 import java.io.OutputStreamWriter;
 import java.util.ArrayList;
 
-import org.rdorado.cheatsheet.utils.Utils;
 import org.xml.sax.Attributes;
 import org.xml.sax.SAXException;
 import org.xml.sax.helpers.DefaultHandler;
 
-public class PosTaggerParser extends DefaultHandler{
+public class POSTaggerParser extends DefaultHandler{
 
 	public enum POSTaggerOutputType {XML, Text}
 	
@@ -21,7 +20,7 @@ public class PosTaggerParser extends DefaultHandler{
 	BufferedWriter out;
 	StringBuffer textBuffer;
 
-	public PosTaggerParser(String outfilename, POSTagger posTagger, POSTaggerOutputType outputType) throws Exception {
+	public POSTaggerParser(String outfilename, POSTagger posTagger, POSTaggerOutputType outputType) throws Exception {
 		this.tagger = posTagger;
 		this.outputType = outputType;
 		if (outputType.equals(POSTaggerOutputType.Text)) {
