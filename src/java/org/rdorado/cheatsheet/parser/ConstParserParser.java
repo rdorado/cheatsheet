@@ -100,5 +100,15 @@ public class ConstParserParser  extends DefaultHandler{
 		  }	
 	}
 	
+	public void endDocument() 
+	throws SAXException  {
+		try {					
+			out.close();
+		} 
+		catch (IOException e) {
+			throw new SAXException("I/O error", e);
+		}
+	}
+
 
 }

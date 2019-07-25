@@ -29,5 +29,19 @@ public class ParseTree {
 	public String getTag() {
 		return this.tag != null ? this.tag : "";
 	}
+
+	public void print() {
+		print("");
+		System.out.println();
+	};
+	
+	public void print(String offset) {
+		System.out.print("("+tag+" "+text);
+		
+		for (ParseTree pt : children) {
+			pt.print("");
+		}
+		System.out.print(")");
+	}
 	
 }
