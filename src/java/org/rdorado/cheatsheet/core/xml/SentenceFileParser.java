@@ -1,7 +1,9 @@
-package org.rdorado.cheatsheet.core;
+package org.rdorado.cheatsheet.core.xml;
 
 import java.io.IOException;
 
+import org.rdorado.cheatsheet.core.CSDocument;
+import org.rdorado.cheatsheet.core.Paragraph;
 import org.xml.sax.Attributes;
 import org.xml.sax.SAXException;
 import org.xml.sax.helpers.DefaultHandler;

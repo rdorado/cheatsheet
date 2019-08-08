@@ -1,4 +1,4 @@
-package org.rdorado.cheatsheet.core;
+package org.rdorado.cheatsheet.core.xml;
 
 import java.io.BufferedWriter;
 import java.io.FileOutputStream;
