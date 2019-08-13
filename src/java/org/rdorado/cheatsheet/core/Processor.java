@@ -21,7 +21,7 @@ import org.rdorado.cheatsheet.core.xml.SentenceFileParser;
 import org.rdorado.cheatsheet.parser.ConstParserParser;
 import org.rdorado.cheatsheet.parser.ConstParserParser.ParserOutputType;
 import org.rdorado.cheatsheet.parser.Parser;
-import org.rdorado.cheatsheet.segmenter.SenteceSegmenter;
+import org.rdorado.cheatsheet.segmenter.SentenceSegmenter;
 import org.rdorado.cheatsheet.tagger.POSTagger;
 import org.rdorado.cheatsheet.tagger.POSTaggerParser;
 import org.rdorado.cheatsheet.tagger.POSTaggerParser.POSTaggerOutputType;
@@ -82,7 +82,7 @@ public class Processor {
 		}		
 	}
 
-	public static void paragraphToSentences(String dirpath, String outdir, SenteceSegmenter senteceSegmenter) {
+	public static void paragraphToSentences(String dirpath, String outdir, SentenceSegmenter senteceSegmenter) {
 		File outdirfolder  = new File(outdir);
 		if(!outdirfolder.exists()) outdirfolder.mkdirs();
 		

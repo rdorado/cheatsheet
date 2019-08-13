@@ -5,7 +5,7 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.OutputStreamWriter;
 
-import org.rdorado.cheatsheet.segmenter.SenteceSegmenter;
+import org.rdorado.cheatsheet.segmenter.SentenceSegmenter;
 import org.rdorado.cheatsheet.utils.Utils;
 import org.xml.sax.Attributes;
 import org.xml.sax.SAXException;
@@ -14,10 +14,10 @@ import org.xml.sax.helpers.DefaultHandler;
 public class ParagraphToSentenceParser extends DefaultHandler{
 
 	BufferedWriter out;
-	SenteceSegmenter senteceSegmenter;
+	SentenceSegmenter senteceSegmenter;
 	StringBuffer textBuffer;
 	
-	public ParagraphToSentenceParser(String outfilename, SenteceSegmenter senteceSegmenter) throws Exception{
+	public ParagraphToSentenceParser(String outfilename, SentenceSegmenter senteceSegmenter) throws Exception{
 		out = new BufferedWriter(new OutputStreamWriter(new FileOutputStream(outfilename), "UTF8")); 
 		this.senteceSegmenter = senteceSegmenter;
 	}
